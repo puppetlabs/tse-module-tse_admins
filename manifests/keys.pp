@@ -2,6 +2,9 @@ define tse_admins::keys (
   $sshkey = $title,
   $username,
 ) {
+  
+  # keys come in as 'key_type key_content key_name'
+  # or 'key_type key_content'
   $key_array   = split($sshkey, ' ')
   $key_type    = $key_array[0]
   $key_content = $key_array[1]
@@ -16,12 +19,14 @@ define tse_admins::keys (
   
   $key_title = "${user}_${key_type}_${key_name}"
 
-  ssh_authorized_keys { $key_title:
-    ensure => present,
-    user   => $username,
-    name   => $key_name,
-    key    => $key_content,
-    type   => $key_type,
+  # this actually creates the resource, and appends it after the user
+  # once compiled into the catalog
+  ssh_authorized_key { $key_title:
+    ensure  => present,
+    user    => $username,
+    name    => $key_name,
+    key     => $key_content,
+    type    => $key_type,
     require => User[$username],
   }
 }
