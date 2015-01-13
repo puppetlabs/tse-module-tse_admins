@@ -27,6 +27,6 @@ define tse_admins::keys (
     name    => $key_name,
     key     => $key_content,
     type    => $key_type,
-    require => User[$username],
+    require => User["${username}"],
   }
 }
