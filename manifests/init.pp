@@ -2,10 +2,10 @@ class tse_admins (
   $purge = true,
 ) {
 
-  #$groups = hiera_hash('tse_admins::groups')
-  #create_resources('@group', $groups)
-
   $tses = hiera_hash('tse_admins')
+
+  $preserved_users = hiera_array('preserved_users')
+
   create_resources('tse_admins::user', $tses)
 
   if $purge {
@@ -15,13 +15,8 @@ class tse_admins (
     }
   }
 
-  $preserved_users = hiera_array('preserved_users')
   user { $preserved_users:
     ensure => present,
   }
-
-  #group { 'tseadmin':
-  #  ensure => present,
-  #}
 
 }
