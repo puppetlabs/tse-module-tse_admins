@@ -2,7 +2,7 @@
 tse_admins:
   cbarker:
     longname: "Chris Barker"
-    group:
+    groups:
       - 'tseadmin'
       - 'wheel'
     shell: '/bin/bash'

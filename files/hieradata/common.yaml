@@ -1,10 +1,11 @@
 ---
 preserved_users:
   - 'peadmin'
+  - 'nfsnobody'
 tse_admins:
   jeremy:
     longname: "Jeremy Adams"
-    group:
+    groups:
       - 'tseadmin'
     shell: '/bin/bash'
     sshkeys:
