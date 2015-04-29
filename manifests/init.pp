@@ -19,8 +19,4 @@ class tse_admins (
     ensure => present,
   }
 
-  group { 'tseadmin':
-    ensure => present,
-  }
-
 }

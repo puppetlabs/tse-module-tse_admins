@@ -2,7 +2,7 @@
 tse_admins:
   reid:
     longname: "Reid Vandewiele"
-    group:
+    groups:
       - 'tseadmin'
       - 'wheel'
     shell: '/bin/bash'

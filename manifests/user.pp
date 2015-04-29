@@ -1,10 +1,18 @@
 define tse_admins::user (
-  $username = $title,
-  $longname,
-  $group = 'tseadmin',
-  $shell = '/bin/bash',
+  String $username = $title,
+  String $longname,
+  Array  $groups   = 'tseadmin',
+  String $shell    = '/bin/bash',
   $sshkeys,
 ) {
+
+  include tse_admins::groups
+
+  $groups.each |String $group| {
+    if defined(Group[$group]) {
+      realize(Group[$group])
+    }
+  }
 
   # we are specific about this users setup
   user { $username:
@@ -13,7 +21,7 @@ define tse_admins::user (
     managehome     => true,
     comment        => "${longname}'s Account created by tse_admins module",
     forcelocal     => true,
-    groups         => $group,
+    groups         => $groups,
     purge_ssh_keys => true,
     shell          => $shell,
   }
