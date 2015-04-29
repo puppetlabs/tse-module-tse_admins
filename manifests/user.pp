@@ -7,9 +7,6 @@ define tse_admins::user (
 ) {
 
   include tse_admins::groups
-  # Realize this user's groups
-  #Group <| title == $groups |>
-  #realize(Group[$groups])
 
   $groups.each |String $group| {
     if defined(Group[$group]) {
@@ -38,7 +35,7 @@ define tse_admins::user (
   }
 
   # since you can put an array of ssh keys, we are making this possible to easily install N number keys
-  #tse_admins::keys { $sshkeys:
-  #  username => $username,
-  #}
+  tse_admins::keys { $sshkeys:
+    username => $username,
+  }
 }
