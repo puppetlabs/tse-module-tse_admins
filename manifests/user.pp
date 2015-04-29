@@ -1,14 +1,21 @@
 define tse_admins::user (
-  $username = $title,
-  $longname,
-  $groups   = 'tseadmin',
-  $shell    = '/bin/bash',
+  String $username = $title,
+  String $longname,
+  Array  $groups   = 'tseadmin',
+  String $shell    = '/bin/bash',
   $sshkeys,
 ) {
 
   include tse_admins::groups
   # Realize this user's groups
-  Group <| title == $groups |>
+  #Group <| title == $groups |>
+  #realize(Group[$groups])
+
+  $groups.each |String $group| {
+    if defined(Group[$group]) {
+      realize(Group[$group])
+    }
+  }
 
   # we are specific about this users setup
   user { $username:
@@ -20,7 +27,6 @@ define tse_admins::user (
     groups         => $groups,
     purge_ssh_keys => true,
     shell          => $shell,
-    require        => Group[$groups]
   }
 
   # make sure we have puppet in the path in the bashrc, but don't do anything else
@@ -32,7 +38,7 @@ define tse_admins::user (
   }
 
   # since you can put an array of ssh keys, we are making this possible to easily install N number keys
-  tse_admins::keys { $sshkeys:
-    username => $username,
-  }
+  #tse_admins::keys { $sshkeys:
+  #  username => $username,
+  #}
 }
